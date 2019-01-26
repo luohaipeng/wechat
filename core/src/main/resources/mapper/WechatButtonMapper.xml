@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.petrel.mapper.WechatButtonMapper" >
+  <resultMap id="BaseResultMap" type="com.petrel.domain.WechatButton" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="p_id" property="pId" jdbcType="VARCHAR" />
+    <result column="key" property="key" jdbcType="VARCHAR" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="appid" property="appid" jdbcType="INTEGER" />
+    <result column="pagepath" property="pagepath" jdbcType="VARCHAR" />
+    <collection property="sub_button" column="id" select="com.petrel.mapper.WechatButtonMapper.getSubButton"/>
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from wechat_button
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.petrel.domain.WechatButton" useGeneratedKeys="true" keyProperty="id" >
+    insert into wechat_button (name, p_id, type, 
+      key, url, appid, pagepath
+      )
+    values (#{name,jdbcType=VARCHAR}, #{parentId,jdbcType=BIGINT}, #{type,jdbcType=VARCHAR}, 
+      #{key,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{appid,jdbcType=INTEGER}, #{pagepath,jdbcType=VARCHAR}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.petrel.domain.WechatButton" >
+    update wechat_button
+    set name = #{name,jdbcType=VARCHAR},
+      p_id = #{parentId,jdbcType=BIGINT},
+      type = #{type,jdbcType=VARCHAR},
+      key = #{key,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      appid = #{appid,jdbcType=INTEGER},
+      pagepath = #{pagepath,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select id, name, p_id, type, key, url, appid, pagepath
+    from wechat_button
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, name, p_id, type, key, url, appid, pagepath
+    from wechat_button
+  </select>
+  <select id="getSubButton" resultMap="BaseResultMap">
+    select * from wechat where p_id = #{id}
+  </select>
+</mapper>

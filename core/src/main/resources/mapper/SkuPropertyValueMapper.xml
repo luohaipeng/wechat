@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.petrel.mapper.SkuPropertyValueMapper" >
+  <resultMap id="BaseResultMap" type="com.petrel.domain.SkuPropertyValue" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="sku_property_id" property="skuPropertyId" jdbcType="BIGINT" />
+    <result column="value" property="value" jdbcType="VARCHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sku_property_value
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.petrel.domain.SkuPropertyValue" useGeneratedKeys="true" keyProperty="id" >
+    insert into sku_property_value (sku_property_id, value)
+    values (#{skuPropertyId,jdbcType=BIGINT}, #{value,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.petrel.domain.SkuPropertyValue" >
+    update sku_property_value
+    set sku_property_id = #{skuPropertyId,jdbcType=BIGINT},
+      value = #{value,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select id, sku_property_id, value
+    from sku_property_value
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, sku_property_id, value
+    from sku_property_value
+  </select>
+
+  <select id="getProListByProId" resultMap="BaseResultMap">
+    select * from sku_property_value where sku_property_id=#{propertyId}
+  </select>
+</mapper>

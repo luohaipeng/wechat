@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.petrel.mapper.PropertyValueMapper" >
+  <resultMap id="BaseResultMap" type="com.petrel.domain.PropertyValue" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="property_id" property="propertyId" jdbcType="BIGINT" />
+    <result column="value" property="value" jdbcType="VARCHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from property_value
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.petrel.domain.PropertyValue" useGeneratedKeys="true" keyProperty="id" >
+    insert into property_value (property_id, value)
+    values (#{propertyId,jdbcType=BIGINT}, #{value,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.petrel.domain.PropertyValue" >
+    update property_value
+    set property_id = #{propertyId,jdbcType=BIGINT},
+      value = #{value,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select id, property_id, value
+    from property_value
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, property_id, value
+    from property_value
+  </select>
+  <select id="getProListByProId" resultMap="BaseResultMap">
+    select * from property_value where property_id=#{propertyId}
+  </select>
+</mapper>
